@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "2fd371d6-b79c-4cd2-ab10-9b05a526834f",
+  "id": "0af49f6c-491a-473f-93b3-f5dc86f28008",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "embeddings": {
@@ -16,7 +16,7 @@
         },
         "resource_id": {
           "name": "resource_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -60,7 +60,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
