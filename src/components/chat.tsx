@@ -1,124 +1,116 @@
 "use client";
 
-import { useState } from "react";
-import { CoreMessage } from "ai";
 import { Message } from "@/components/message";
-import { sendMessage } from "@/actions/chat";
-import { readStreamableValue } from "ai/rsc";
 
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { SendIcon } from "./Icon";
-import { useScrollAnchor } from "@/hooks/use-scroll-anchor";
+import { useScrollToBottom } from "@/hooks/useScrollToBottom";
 
-const Chat = () => {
-  const [messages, setMessages] = useState<Array<CoreMessage>>([]);
-  const [input, setInput] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+import { useChat } from "ai/react";
+import { ArrowUpIcon, StopCircleIcon } from "lucide-react";
+import { useRef } from "react";
 
-  const { messagesRef, scrollRef, visibilityRef } = useScrollAnchor();
+export const Chat = ({ userId }: { userId: string }) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (input.trim() === "" || isLoading) {
-      return;
-    }
+  const { messages, handleSubmit, input, setInput, isLoading, stop } = useChat({
+    maxSteps: 5,
+    body: {
+      userId: userId,
+    },
+  });
 
-    setIsLoading(true);
+  const [messagesContainerRef, messagesEndRef] =
+    useScrollToBottom<HTMLDivElement>();
 
-    const userMessage: CoreMessage = { role: "user", content: input };
-    setInput("");
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      userMessage,
-      { role: "assistant", content: "Loading...", id: "loading" },
-    ]);
-
-    try {
-      const { oldMessages, newMessage } = await sendMessage([
-        ...messages,
-        userMessage,
-      ]);
-
-      let textContent = "";
-      for await (const delta of readStreamableValue(newMessage)) {
-        textContent += delta;
-        setMessages([
-          ...oldMessages,
-          { role: "assistant", content: textContent },
-        ]);
-      }
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          role: "assistant",
-          content: "I'm sorry, but I encountered an error. Please try again.",
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
+  const adjustHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${
+        textareaRef.current.scrollHeight + 2
+      }px`;
     }
   };
 
-  return (
-    <div className="flex-1 rounded-lg border bg-background p-4 shadow">
-      <div className="flex h-full flex-col gap-4">
-        <div className="flex flex-col sm:flex-row items-center justify-between border-b pb-4">
-          <h2 className="text-lg font-medium text-foreground">
-            🤖 Chatbot With Turso Vector Search
-          </h2>
-          <h2 className="text-md font-semibold text-center border border-red-400 bg-red-200 rounded-md p-4">
-            ⚠️ This is a demo application using Turso. Database might have some
-            information missing or incorrect.
-          </h2>
-        </div>
-        <ScrollArea className="h-[45vh] sm:h-[65vh]" ref={scrollRef}>
-          <div ref={messagesRef} className="flex flex-col gap-3 pb-4">
-            {messages.length === 0 && (
-              <Message
-                message={{
-                  role: "assistant",
-                  content: "Hello, how can I assist you today?",
-                }}
-              />
-            )}
+  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(event.target.value);
+    adjustHeight();
+  };
 
-            {messages.length > 0 &&
-              messages.map((message, index) => (
-                <Message key={index} message={message} />
-              ))}
-            <div ref={visibilityRef} />
-          </div>
-        </ScrollArea>
-        <div className="mt-4 flex items-center gap-2 ">
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col items-end sm:flex-row w-full gap-4 p-4"
-          >
-            <Textarea
-              placeholder="Type your message..."
-              className="flex-1 resize-none rounded-lg border bg-background p-2 text-sm shadow-sm"
-              value={input}
-              disabled={isLoading}
-              rows={5}
-              onChange={(event) => setInput(event.target.value)}
+  return (
+    <div className="flex flex-col h-[calc(100vh-12rem)] mx-auto">
+      <div
+        ref={messagesContainerRef}
+        className="h-full overflow-y-scroll w-full"
+      >
+        <div className="w-11/12 sm:w-5/6 flex flex-col items-center gap-4 mx-auto pt-4">
+          {messages.length === 0 && (
+            <Message
+              content="Hi, I'm your personal assistant. How can I help you today?"
+              role="assistant"
             />
+          )}
+
+          {messages.length > 0 &&
+            messages.map((message, index) => (
+              <Message
+                key={index}
+                role={message.role}
+                content={message.content}
+                attachments={message.experimental_attachments}
+                toolInvocations={message.toolInvocations}
+              />
+            ))}
+        </div>
+        <div
+          ref={messagesEndRef}
+          className="flex-shrink-0 min-w-[24px] min-h-[24px]"
+        />
+      </div>
+      <div className="p-4 h-40 sm:h-16">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col relative w-11/12 sm:w-5/6 mx-auto gap-4 p-2 "
+        >
+          <Textarea
+            ref={textareaRef}
+            placeholder="Type your message..."
+            className="flex-1 resize-none rounded-lg border bg-background p-2 text-sm shadow-sm"
+            value={input}
+            onChange={handleInput}
+            disabled={isLoading}
+            rows={4}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                handleSubmit();
+              }
+            }}
+          />
+          {isLoading ? (
+            <Button
+              type="button"
+              className="absolute bottom-4 right-4"
+              onClick={(event) => {
+                event.preventDefault();
+                stop();
+              }}
+              size="icon"
+            >
+              <StopCircleIcon className="h-4 w-4" />
+            </Button>
+          ) : (
             <Button
               type="submit"
-              className="w-full sm:w-auto"
-              disabled={isLoading}
+              className="absolute bottom-4 right-4"
+              disabled={input.length === 0}
+              size="icon"
             >
-              <SendIcon className="h-4 w-4" />
-              {isLoading ? "Sending..." : "Send"}
+              <ArrowUpIcon className="h-4 w-4" />
             </Button>
-          </form>
-        </div>
+          )}
+        </form>
       </div>
     </div>
   );
 };
-
-export default Chat;

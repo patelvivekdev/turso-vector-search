@@ -69,7 +69,7 @@ export const getFactsFromLLM = async (
   input: string
 ): Promise<Array<string>> => {
   const { object } = await generateObject({
-    model: google("gemini-1.5-pro"), // 💡
+    model: google("gemini-1.5-flash-latest"), // 💡
     system: FactsPrompt,
     prompt: input,
     schema: z.object({

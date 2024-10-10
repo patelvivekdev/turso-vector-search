@@ -6,6 +6,7 @@ export const resources = sqliteTable("resources", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id").notNull().default("43227010"), // Added default as there are data in tables
   content: text("content").notNull(),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
@@ -19,6 +20,7 @@ export const embeddings = sqliteTable("embeddings", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id").notNull().default("43227010"), // Added default as there are data in tables
   resourceId: text("resource_id").references(() => resources.id, {
     onDelete: "cascade",
   }),
