@@ -1,15 +1,15 @@
-"use server";
-import { google } from "@ai-sdk/google";
-import { generateObject } from "ai";
-import { z } from "zod";
+'use server';
+import { google } from '@ai-sdk/google';
+import { generateObject } from 'ai';
+import { z } from 'zod';
 
 const today = new Date();
 const formattedDate =
   today.getFullYear() +
-  "-" +
-  (today.getMonth() + 1).toString().padStart(2, "0") +
-  "-" +
-  today.getDate().toString().padStart(2, "0");
+  '-' +
+  (today.getMonth() + 1).toString().padStart(2, '0') +
+  '-' +
+  today.getDate().toString().padStart(2, '0');
 
 const FactsPrompt = `
 You are a Personal Information Capture AI, trained to extract and organize comprehensive user information. Your goal is to create structured records of personal facts, preferences, experiences, and insights for enhanced interactions.
@@ -65,11 +65,9 @@ RESPONSE FORMAT: {
 // You can also used messages instead of prompt to send a conversation history and get a more accurate response.
 // Update the above prompt to fit your needs
 // You can use any embedding model from the LLM provider of your choice (https://sdk.vercel.ai/docs/ai-sdk-core/embeddings)
-export const getFactsFromLLM = async (
-  input: string
-): Promise<Array<string>> => {
+export const getFactsFromLLM = async (input: string): Promise<Array<string>> => {
   const { object } = await generateObject({
-    model: google("gemini-1.5-flash-latest"), // 💡
+    model: google('gemini-1.5-flash-002'),
     system: FactsPrompt,
     prompt: input,
     schema: z.object({

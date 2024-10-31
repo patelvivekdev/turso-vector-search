@@ -1,7 +1,7 @@
-"use server";
-import { insertEmbeddings, insertResource } from "@/db/queries/insert";
-import { getFactsFromLLM } from "./facts";
-import { generateEmbeddings } from "./embedding";
+'use server';
+import { insertEmbeddings, insertResource } from '@/db/queries/insert';
+import { getFactsFromLLM } from './facts';
+import { generateEmbeddings } from './embedding';
 
 export const createResource = async (userID: string, content: string) => {
   try {
@@ -26,14 +26,12 @@ export const createResource = async (userID: string, content: string) => {
       // store embeddings
       await insertEmbeddings(userID, embeddingsData);
 
-      return "Resource successfully created and embedded.";
+      return 'Resource successfully created and embedded.';
     } else {
-      return "No facts found in resource.";
+      return 'No facts found in resource.';
     }
   } catch (error) {
     if (error instanceof Error)
-      return error.message.length > 0
-        ? error.message
-        : "Error, please try again.";
+      return error.message.length > 0 ? error.message : 'Error, please try again.';
   }
 };

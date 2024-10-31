@@ -1,10 +1,7 @@
-import { db } from "../index";
-import { embeddings, resources } from "../schema";
+import { db } from '../index';
+import { embeddings, resources } from '../schema';
 
-export async function insertResource(
-  userID: string,
-  resource: string
-): Promise<string> {
+export async function insertResource(userID: string, resource: string): Promise<string> {
   try {
     const [newResource] = await db
       .insert(resources)
@@ -15,7 +12,7 @@ export async function insertResource(
       .returning({ id: resources.id });
     return newResource.id;
   } catch (error) {
-    console.error("Error inserting resource:", error);
+    console.error('Error inserting resource:', error);
     throw error;
   }
 }
@@ -27,12 +24,12 @@ export async function insertEmbeddings(
     resourceId: string;
     content: string;
     embedding: number[];
-  }[]
+  }[],
 ) {
   try {
     await db.insert(embeddings).values(data);
   } catch (error) {
-    console.error("Error inserting embeddings:", error);
+    console.error('Error inserting embeddings:', error);
     throw error;
   }
 }

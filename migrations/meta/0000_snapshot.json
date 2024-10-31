@@ -42,12 +42,8 @@
           "name": "embeddings_resource_id_resources_id_fk",
           "tableFrom": "embeddings",
           "tableTo": "resources",
-          "columnsFrom": [
-            "resource_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["resource_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }

@@ -1,8 +1,6 @@
-import { JSX, SVGProps } from "react";
+import { JSX, SVGProps } from 'react';
 
-export function BotIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
-) {
+export function BotIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -26,9 +24,7 @@ export function BotIcon(
   );
 }
 
-export function SendIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
-) {
+export function SendIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -48,9 +44,7 @@ export function SendIcon(
   );
 }
 
-export const GitHub = (
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
-) => {
+export const GitHub = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
   return (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path
@@ -61,9 +55,7 @@ export const GitHub = (
   );
 };
 
-export const Google = (
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
-) => {
+export const Google = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
   return (
     <svg role="img" viewBox="0 0 24 24" {...props}>
       <path

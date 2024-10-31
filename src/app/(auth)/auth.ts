@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import NextAuth, { DefaultSession } from "next-auth";
-import GitHub from "next-auth/providers/github";
-import Google from "next-auth/providers/google";
-import { Session } from "next-auth";
-import { JWT } from "next-auth/jwt";
+import NextAuth, { DefaultSession } from 'next-auth';
+import GitHub from 'next-auth/providers/github';
+import Google from 'next-auth/providers/google';
+import { Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     user: {
       userId: string;
       username?: string;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   interface User {
@@ -19,7 +19,7 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     id: string;
     userId: string;
@@ -30,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
       async profile(profile) {
-        console.log("profile", profile);
+        console.log('profile', profile);
         return {
           id: profile.sub.toString(),
           userId: profile.sub.toString(),

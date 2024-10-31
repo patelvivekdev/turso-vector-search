@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Message } from "@/components/message";
+import { Message } from '@/components/message';
 
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { useScrollToBottom } from "@/hooks/useScrollToBottom";
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { useScrollToBottom } from '@/hooks/useScrollToBottom';
 
-import { useChat } from "ai/react";
-import { ArrowUpIcon, StopCircleIcon } from "lucide-react";
-import { useRef } from "react";
+import { useChat } from 'ai/react';
+import { ArrowUpIcon, StopCircleIcon } from 'lucide-react';
+import { useRef } from 'react';
 
 export const Chat = ({ userId }: { userId: string }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -20,15 +20,12 @@ export const Chat = ({ userId }: { userId: string }) => {
     },
   });
 
-  const [messagesContainerRef, messagesEndRef] =
-    useScrollToBottom<HTMLDivElement>();
+  const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   const adjustHeight = () => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${
-        textareaRef.current.scrollHeight + 2
-      }px`;
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
     }
   };
 
@@ -38,12 +35,9 @@ export const Chat = ({ userId }: { userId: string }) => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-12rem)] mx-auto">
-      <div
-        ref={messagesContainerRef}
-        className="h-full overflow-y-scroll w-full"
-      >
-        <div className="w-11/12 sm:w-5/6 flex flex-col items-center gap-4 mx-auto pt-4">
+    <div className="mx-auto flex h-[calc(100vh-12rem)] flex-col">
+      <div ref={messagesContainerRef} className="h-full w-full overflow-y-scroll">
+        <div className="mx-auto flex w-11/12 flex-col items-center gap-4 pt-4 sm:w-5/6">
           {messages.length === 0 && (
             <Message
               content="Hi, I'm your personal assistant. How can I help you today?"
@@ -62,15 +56,12 @@ export const Chat = ({ userId }: { userId: string }) => {
               />
             ))}
         </div>
-        <div
-          ref={messagesEndRef}
-          className="flex-shrink-0 min-w-[24px] min-h-[24px]"
-        />
+        <div ref={messagesEndRef} className="min-h-[24px] min-w-[24px] flex-shrink-0" />
       </div>
-      <div className="p-4 h-40 sm:h-16">
+      <div className="h-40 p-4 sm:h-16">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col relative w-11/12 sm:w-5/6 mx-auto gap-4 p-2 "
+          className="relative mx-auto flex w-11/12 flex-col gap-4 p-2 sm:w-5/6"
         >
           <Textarea
             ref={textareaRef}
@@ -81,7 +72,7 @@ export const Chat = ({ userId }: { userId: string }) => {
             disabled={isLoading}
             rows={4}
             onKeyDown={(event) => {
-              if (event.key === "Enter" && !event.shiftKey) {
+              if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 handleSubmit();
               }

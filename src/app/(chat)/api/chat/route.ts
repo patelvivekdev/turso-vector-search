@@ -1,10 +1,10 @@
-"use server";
-import { convertToCoreMessages, streamText } from "ai";
-import { z } from "zod";
-import { findRelevantContent } from "@/lib/ai/embedding";
-import { createResource } from "@/lib/ai/resources";
+'use server';
+import { convertToCoreMessages, streamText } from 'ai';
+import { z } from 'zod';
+import { findRelevantContent } from '@/lib/ai/embedding';
+import { createResource } from '@/lib/ai/resources';
 
-import { customModel } from "@/ai";
+import { customModel } from '@/ai';
 
 export async function POST(request: Request) {
   const { userId, messages } = await request.json();
@@ -51,34 +51,31 @@ export async function POST(request: Request) {
     maxSteps: 5,
     tools: {
       addResource: {
-        name: "Store Knowledge",
-        description:
-          "Stores information provided by the user in your knowledge base.",
+        name: 'Store Knowledge',
+        description: 'Stores information provided by the user in your knowledge base.',
         parameters: z.object({
-          content: z
-            .string()
-            .describe("The content or resource to add to the knowledge base."),
+          content: z.string().describe('The content or resource to add to the knowledge base.'),
         }),
         execute: async ({ content }) => {
-          console.log("Storing knowledge");
+          console.log('Storing knowledge');
           const result = await createResource(userId, content);
-          console.log("Knowledge stored:", result);
+          console.log('Knowledge stored:', result);
           return {
             result,
           };
         },
       },
       retrieveInformation: {
-        name: "Retrieve Knowledge",
-        description: "Retrieves relevant information from the knowledge base.",
+        name: 'Retrieve Knowledge',
+        description: 'Retrieves relevant information from the knowledge base.',
         parameters: z.object({
-          question: z.string().describe("the users question"),
+          question: z.string().describe('the users question'),
         }),
         execute: async ({ question }) => {
-          console.log("Retrieving knowledge");
+          console.log('Retrieving knowledge');
           const result = await findRelevantContent(userId, question);
 
-          console.log("Retrieved knowledge:", result.length);
+          console.log('Retrieved knowledge:', result.length);
           return { result: result };
         },
       },

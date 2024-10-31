@@ -1,32 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export const NonMemoizedMarkdown = ({ children }: { children: string }) => {
   const components = {
     code: ({ node, inline, className, children, ...props }: any) => {
-      const match = /language-(\w+)/.exec(className || "");
+      const match = /language-(\w+)/.exec(className || '');
       return !inline && match ? (
         <pre
           {...props}
-          className={`${className} text-sm w-[80dvw] md:max-w-[500px] overflow-x-scroll bg-zinc-100 p-2 rounded mt-2`}
+          className={`${className} mt-2 w-[80dvw] overflow-x-scroll rounded bg-zinc-100 p-2 text-sm md:max-w-[500px]`}
         >
           <code className={match[1]}>{children}</code>
         </pre>
       ) : (
-        <code
-          className={`${className} text-sm bg-zinc-100 py-0.5 px-1 rounded`}
-          {...props}
-        >
+        <code className={`${className} rounded bg-zinc-100 px-1 py-0.5 text-sm`} {...props}>
           {children}
         </code>
       );
     },
     ol: ({ node, children, ...props }: any) => {
       return (
-        <ol className="list-decimal list-inside ml-4" {...props}>
+        <ol className="ml-4 list-inside list-decimal" {...props}>
           {children}
         </ol>
       );
@@ -40,7 +37,7 @@ export const NonMemoizedMarkdown = ({ children }: { children: string }) => {
     },
     ul: ({ node, children, ...props }: any) => {
       return (
-        <ul className="list-decimal list-inside ml-4" {...props}>
+        <ul className="ml-4 list-inside list-decimal" {...props}>
           {children}
         </ul>
       );
@@ -63,5 +60,5 @@ export const NonMemoizedMarkdown = ({ children }: { children: string }) => {
 
 export const Markdown = React.memo(
   NonMemoizedMarkdown,
-  (prevProps, nextProps) => prevProps.children === nextProps.children
+  (prevProps, nextProps) => prevProps.children === nextProps.children,
 );

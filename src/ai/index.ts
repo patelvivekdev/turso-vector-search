@@ -1,10 +1,10 @@
-import { experimental_wrapLanguageModel as wrapLanguageModel } from "ai";
-import { ragMiddleware } from "./rag-middleware";
-import { google } from "@ai-sdk/google";
+import { experimental_wrapLanguageModel as wrapLanguageModel } from 'ai';
+import { ragMiddleware } from './rag-middleware';
+import { google } from '@ai-sdk/google';
 
-const model = google("gemini-1.5-pro-002");
+const geminiModel = google('gemini-1.5-pro-002');
 
 export const customModel = wrapLanguageModel({
-  model: model,
+  model: geminiModel,
   middleware: ragMiddleware,
 });

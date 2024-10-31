@@ -1,17 +1,17 @@
-import { signIn, signOut } from "@/app/(auth)/auth";
-import { GitHub, Google } from "./Icon";
-import { Button } from "./ui/button";
-import { unstable_noStore } from "next/cache";
+import { signIn, signOut } from '@/app/(auth)/auth';
+import { GitHub, Google } from './Icon';
+import { Button } from './ui/button';
+import { unstable_noStore } from 'next/cache';
 
 export function GithubSignIn() {
   return (
     <form
       action={async () => {
-        "use server";
-        await signIn("github", {
-          redirectTo: "/",
+        'use server';
+        await signIn('github', {
+          redirectTo: '/',
           redirect: true,
-          callbackUrl: "/",
+          callbackUrl: '/',
         });
       }}
     >
@@ -27,11 +27,11 @@ export function GoogleSignIn() {
   return (
     <form
       action={async () => {
-        "use server";
-        await signIn("google", {
-          redirectTo: "/",
+        'use server';
+        await signIn('google', {
+          redirectTo: '/',
           redirect: true,
-          callbackUrl: "/",
+          callbackUrl: '/',
         });
       }}
     >
@@ -48,9 +48,9 @@ export function SignOut() {
   return (
     <form
       action={async () => {
-        "use server";
+        'use server';
         await signOut({
-          redirectTo: "/",
+          redirectTo: '/',
           redirect: true,
         });
       }}

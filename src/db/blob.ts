@@ -1,5 +1,5 @@
-import { sql } from "drizzle-orm";
-import { customType } from "drizzle-orm/sqlite-core";
+import { sql } from 'drizzle-orm';
+import { customType } from 'drizzle-orm/sqlite-core';
 
 export const vectorColumn = customType<{
   data: number[];
