@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import Navbar from '@/components/Navbar';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -15,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'RAG 101',
+  title: 'Turso Vector Search',
   description: 'RAG Application with Turso, Drizzle ORM and vercel AI SDK',
 };
 
@@ -27,8 +28,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar />
-        {children}
+        <NuqsAdapter>
+          <Navbar />
+          {children}
+        </NuqsAdapter>
       </body>
     </html>
   );

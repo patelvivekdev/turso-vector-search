@@ -4,10 +4,10 @@ import { z } from 'zod';
 import { findRelevantContent } from '@/lib/ai/embedding';
 import { createResource } from '@/lib/ai/resources';
 
-import { customModel } from '@/ai';
+import { selectCustomModel } from '@/ai';
 
 export async function POST(request: Request) {
-  const { userId, messages } = await request.json();
+  const { userId, selectedModel, messages } = await request.json();
 
   const system = `You are a helpful AI assistant acting as a personalized memory and knowledge assistant. Your primary function is to help users remember information, answer their questions, and organize their personal knowledge.  You prioritize retrieving relevant memories and information from the knowledge base before formulating any response. Always use the available tools in a logical sequence to ensure accuracy and completeness.  I will silently store relevant information provided by the user to enhance future responses and assist with recall.
 
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 `;
 
   const result = await streamText({
-    model: customModel,
+    model: selectCustomModel(selectedModel),
     system: system,
     messages: convertToCoreMessages(messages),
     maxSteps: 5,

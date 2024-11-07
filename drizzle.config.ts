@@ -5,8 +5,7 @@ config({ path: '.env.local' });
 
 //Configured for SQLite with Turso
 export default defineConfig({
-  dialect: 'sqlite',
-  driver: 'turso',
+  dialect: 'turso',
   schema: './src/db/schema.ts',
   out: './migrations',
   dbCredentials: {

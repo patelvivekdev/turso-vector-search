@@ -1,21 +1,24 @@
 'use client';
-
-import { Message } from '@/components/message';
-
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { useScrollToBottom } from '@/hooks/useScrollToBottom';
-
 import { useChat } from 'ai/react';
 import { ArrowUpIcon, StopCircleIcon } from 'lucide-react';
 import { useRef } from 'react';
 
+import { Message } from '@/components/message';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { useScrollToBottom } from '@/hooks/useScrollToBottom';
+import { useQueryState } from 'nuqs';
+
+export type modelType = 'google' | 'mistral';
+
 export const Chat = ({ userId }: { userId: string }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [selectedModel] = useQueryState('model');
 
   const { messages, handleSubmit, input, setInput, isLoading, stop } = useChat({
     maxSteps: 5,
     body: {
+      selectedModel: selectedModel,
       userId: userId,
     },
   });
