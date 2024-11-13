@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "0af49f6c-491a-473f-93b3-f5dc86f28008",
+  "id": "03f193cb-9376-471a-8abc-2dedfeced66f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "embeddings": {
@@ -13,6 +13,14 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'43227010'"
         },
         "resource_id": {
           "name": "resource_id",
@@ -30,7 +38,7 @@
         },
         "embedding": {
           "name": "embedding",
-          "type": "F32_BLOB(768)",
+          "type": "F32_BLOB(1024)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -49,7 +57,8 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "resources": {
       "name": "resources",
@@ -60,6 +69,14 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'43227010'"
         },
         "content": {
           "name": "content",
@@ -88,9 +105,11 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
+  "views": {},
   "enums": {},
   "_meta": {
     "schemas": {},

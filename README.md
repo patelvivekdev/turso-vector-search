@@ -26,6 +26,12 @@ bun run db:generate
 bun run db:migrate
 ```
 
+### Create Index on Turso
+
+```sql
+CREATE INDEX vector_idx ON embeddings (libsql_vector_idx(embedding));
+```
+
 ### Run the server
 
 ```bash

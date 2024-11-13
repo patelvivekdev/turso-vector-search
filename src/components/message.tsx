@@ -17,6 +17,9 @@ export const Message = ({
   toolInvocations?: Array<ToolInvocation> | undefined;
   attachments?: Array<Attachment>;
 }) => {
+  if (!content && toolInvocations) {
+    return null;
+  }
   return (
     <motion.div
       className={`flex w-full flex-row gap-4 ${role === 'user' ? 'justify-end' : 'justify-start'}`}
