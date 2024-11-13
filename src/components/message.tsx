@@ -5,7 +5,7 @@ import { Attachment, ToolInvocation } from 'ai';
 import { ReactNode } from 'react';
 import { Markdown } from './markdown';
 import { BotIcon } from './Icon';
-import { UserIcon } from 'lucide-react';
+import { Loader2, UserIcon } from 'lucide-react';
 
 export const Message = ({
   role,
@@ -17,46 +17,95 @@ export const Message = ({
   toolInvocations?: Array<ToolInvocation> | undefined;
   attachments?: Array<Attachment>;
 }) => {
-  if (!content && toolInvocations) {
-    return null;
-  }
-  return (
-    <motion.div
-      className={`flex w-full flex-row gap-4 ${role === 'user' ? 'justify-end' : 'justify-start'}`}
-      initial={{ y: 5, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-    >
-      <div
-        className={`flex max-w-[90%] items-start space-x-2 ${
-          role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-        }`}
-      >
-        <div className="flex size-[28px] flex-shrink-0 flex-col items-center justify-center text-zinc-900">
-          {role !== 'user' ? (
-            <span className="rounded-full border border-black p-1">
-              <BotIcon width={24} height={24} className="rounded-full" />
-            </span>
-          ) : (
-            <span className="rounded-full border border-black p-1">
-              <UserIcon width={24} height={24} className="rounded-full" />
-            </span>
-          )}
-        </div>
+  const isToolCalling = toolInvocations && toolInvocations[0].state !== 'result';
 
-        <div className="flex w-full flex-col gap-1">
-          {content && (
+  if (isToolCalling) {
+    return (
+      <motion.div
+        className={`flex w-full flex-row gap-4 ${role === 'user' ? 'justify-end' : 'justify-start'}`}
+        initial={{ y: 5, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+      >
+        <div
+          className={`flex max-w-[90%] items-start space-x-2 ${
+            role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+          }`}
+        >
+          <div className="flex size-[28px] flex-shrink-0 flex-col items-center justify-center text-zinc-900">
+            {role !== 'user' ? (
+              <span className="rounded-lg border border-black p-1">
+                <BotIcon width={24} height={24} className="rounded-lg" />
+              </span>
+            ) : (
+              <span className="rounded-lg border border-black p-1">
+                <UserIcon width={24} height={24} className="rounded-lg" />
+              </span>
+            )}
+          </div>
+
+          <div className="flex w-full flex-col gap-1">
+            <div className="flex flex-col gap-4">
+              <Loader2 className="animate-spin" />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  if (content) {
+    return (
+      <motion.div
+        className={`flex w-full flex-row gap-4 ${role === 'user' ? 'justify-end' : 'justify-start'}`}
+        initial={{ y: 5, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+      >
+        <div
+          className={`flex max-w-[80%] items-start space-x-2 ${
+            role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+          }`}
+        >
+          <div className="flex size-[28px] flex-shrink-0 flex-col items-center justify-center text-zinc-900">
+            {role !== 'user' ? (
+              <span className="rounded-lg border border-black p-1">
+                <BotIcon width={24} height={24} className="rounded-lg" />
+              </span>
+            ) : (
+              <span className="rounded-lg border border-black p-1">
+                <UserIcon width={24} height={24} className="rounded-lg" />
+              </span>
+            )}
+          </div>
+
+          <div className="flex w-full flex-col gap-1">
             <div className="flex flex-col gap-4 text-zinc-800 dark:text-zinc-300">
               <Markdown>{content as string}</Markdown>
             </div>
-          )}
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+};
 
-          {toolInvocations && (
-            <div className="flex flex-col gap-4">
-              {toolInvocations.map((toolInvocation) => {
-                return <div key={toolInvocation.toolCallId}>🔧Tool: {toolInvocation.toolName}</div>;
-              })}
-            </div>
-          )}
+export const ThinkingMessage = () => {
+  return (
+    <motion.div
+      className={`flex w-full flex-row justify-start gap-4`}
+      initial={{ y: 5, opacity: 0 }}
+      animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
+    >
+      <div className={`flex max-w-[90%] items-start space-x-2`}>
+        <div className="flex size-[28px] flex-shrink-0 flex-col items-center justify-center text-zinc-900">
+          <span className="rounded-lg border border-black p-1">
+            <BotIcon width={24} height={24} className="rounded-lg" />
+          </span>
+        </div>
+
+        <div className="flex w-full flex-col gap-1">
+          <div className="flex flex-col gap-4 text-zinc-800 dark:text-zinc-300">
+            <div className="flex flex-col gap-4 text-muted-foreground">Thinking...</div>
+          </div>
         </div>
       </div>
     </motion.div>

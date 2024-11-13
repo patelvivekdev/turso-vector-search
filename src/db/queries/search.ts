@@ -41,9 +41,6 @@ export const findRelevantContent = async (userID: string, userQuery: string, top
     if (results.length === 0) {
       return 'Error: No results found';
     }
-
-    console.log('Initial results:', results);
-
     // Re rank the results using Mixedbread AI
     const res = await mxbai.reranking({
       model: 'mixedbread-ai/mxbai-rerank-large-v1',
@@ -52,8 +49,6 @@ export const findRelevantContent = async (userID: string, userQuery: string, top
       topK: topK || 20,
       returnInput: true,
     });
-
-    console.log('Re-ranked results:', res);
 
     return res.data.map((r) => r.input);
   } catch (error) {
