@@ -9,7 +9,7 @@ import { mixedbread } from 'mixedbread-ai-provider';
 const mistralModel = mistral('mistral-large-latest');
 
 // Gemini models : https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-pro
-const geminiModel = google('gemini-1.5-flash-002');
+const geminiModel = google('gemini-2.0-flash-exp');
 
 // Mixedbread models : https://www.mixedbread.ai/docs/embeddings/models
 export const mixedBredModel = mixedbread('mixedbread-ai/mxbai-embed-large-v1', {

@@ -11,14 +11,13 @@ import { useQueryState } from 'nuqs';
 
 export type modelType = 'google' | 'mistral';
 
-export const Chat = ({ userId }: { userId: string }) => {
+export const Chat = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [selectedModel] = useQueryState('model');
 
   const { messages, handleSubmit, input, setInput, isLoading, stop } = useChat({
     body: {
       selectedModel: selectedModel,
-      userId: userId,
     },
   });
 

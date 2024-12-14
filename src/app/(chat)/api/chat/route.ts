@@ -1,20 +1,41 @@
-'use server';
-import { convertToCoreMessages, streamText } from 'ai';
+import { convertToCoreMessages, CoreTool, smoothStream, streamText } from 'ai';
 import { z } from 'zod';
 import { selectCustomModel } from '@/ai';
 import { createResource } from '@/ai/resources';
 import { RAGPrompt } from '@/ai/prompt';
 import { findRelevantContent } from '@/db/queries/search';
+import { console } from 'inspector';
+import { auth } from '@/app/(auth)/auth';
+import { redirect } from 'next/navigation';
+export const maxDuration = 60;
+
+export async function GET() {
+  const session = await auth();
+  if (!session?.user) {
+    return redirect('/');
+  }
+
+  return new Response('API is running', {
+    status: 200,
+  });
+}
 
 export async function POST(request: Request) {
-  const { userId, selectedModel, messages } = await request.json();
-  console.log('userId:', userId);
+  // perform auth check so api end point is protected
+  const session = await auth();
+  if (!session?.user || !session.user.id) {
+    return redirect('/');
+  }
 
-  const result = await streamText({
+  const userId = session.user.id;
+
+  const { selectedModel, messages } = await request.json();
+
+  const result = streamText({
     model: selectCustomModel(selectedModel),
     system: RAGPrompt,
     messages: convertToCoreMessages(messages),
-    maxSteps: 10,
+    maxSteps: 15,
     tools: {
       addResource: {
         name: 'addResource',
@@ -30,7 +51,7 @@ export async function POST(request: Request) {
             result,
           };
         },
-      },
+      } as CoreTool,
       retrieveInformation: {
         name: 'retrieveInformation',
         description:
@@ -45,8 +66,12 @@ export async function POST(request: Request) {
           console.log('Retrieved knowledge:', result.length);
           return { result: result };
         },
-      },
+      } as CoreTool,
     },
+    experimental_transform: smoothStream({
+      delayInMs: 20,
+    }),
   });
+
   return result.toDataStreamResponse();
 }

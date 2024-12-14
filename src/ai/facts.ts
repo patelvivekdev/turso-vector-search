@@ -9,7 +9,7 @@ import { FactsPrompt } from './prompt';
 // Update the above prompt to fit your needs
 export const getFactsFromLLM = async (input: string): Promise<Array<string>> => {
   const { object } = await generateObject({
-    model: google('gemini-1.5-flash-002'),
+    model: google('gemini-2.0-flash-exp'),
     system: FactsPrompt,
     prompt: input,
     schema: z.object({
