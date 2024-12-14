@@ -21,22 +21,9 @@ export const Chat = () => {
     },
   });
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      adjustHeight();
-    }
-  }, []);
-
   const [localStorageInput, setLocalStorageInput] = useLocalStorage('input', '');
 
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
-
-  const adjustHeight = () => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
-    }
-  };
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -44,7 +31,6 @@ export const Chat = () => {
       // Prefer DOM value over localStorage to handle hydration
       const finalValue = domValue || localStorageInput || '';
       setInput(finalValue);
-      adjustHeight();
     }
     // Only run once after hydration
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +42,6 @@ export const Chat = () => {
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
-    adjustHeight();
   };
 
   return (
@@ -95,7 +80,7 @@ export const Chat = () => {
           <Textarea
             ref={textareaRef}
             placeholder="Type your message..."
-            className="max-h-[calc(75dvh)] min-h-[24px] resize-none overflow-hidden rounded-xl bg-muted text-base"
+            className="min-h-[24px] resize-none overflow-x-auto rounded-xl bg-muted text-base"
             value={input}
             onChange={handleInput}
             disabled={isLoading}

@@ -4,30 +4,18 @@ import { selectCustomModel } from '@/ai';
 import { createResource } from '@/ai/resources';
 import { RAGPrompt } from '@/ai/prompt';
 import { findRelevantContent } from '@/db/queries/search';
-import { console } from 'inspector';
 import { auth } from '@/app/(auth)/auth';
 import { redirect } from 'next/navigation';
 export const maxDuration = 60;
 
-export async function GET() {
-  const session = await auth();
-  if (!session?.user) {
-    return redirect('/');
-  }
-
-  return new Response('API is running', {
-    status: 200,
-  });
-}
-
 export async function POST(request: Request) {
   // perform auth check so api end point is protected
   const session = await auth();
-  if (!session?.user || !session.user.id) {
+  if (!session?.user || !session.user.userId) {
     return redirect('/');
   }
 
-  const userId = session.user.id;
+  const userId = session.user.userId;
 
   const { selectedModel, messages } = await request.json();
 
