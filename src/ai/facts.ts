@@ -13,7 +13,7 @@ export const getFactsFromLLM = async (input: string): Promise<Array<string>> => 
     system: FactsPrompt,
     prompt: input,
     schema: z.object({
-      facts: z.array(z.string()), // Expecting an array of simple text facts
+      facts: z.array(z.string()),
     }),
   });
 

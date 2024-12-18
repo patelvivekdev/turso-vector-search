@@ -1,17 +1,19 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Attachment, ToolInvocation } from 'ai';
 import { ReactNode } from 'react';
-import { Markdown } from './markdown';
+import { MemoizedMarkdown } from './markdown';
 import { BotIcon } from './Icon';
 import { Loader2, UserIcon } from 'lucide-react';
 
 export const Message = ({
+  id,
   role,
   content,
   toolInvocations,
 }: {
+  id: string;
   role: string;
   content: string | ReactNode;
   toolInvocations?: Array<ToolInvocation> | undefined;
@@ -79,7 +81,7 @@ export const Message = ({
 
           <div className="flex w-full flex-col gap-1">
             <div className="flex flex-col gap-4 text-zinc-800 dark:text-zinc-300">
-              <Markdown>{content as string}</Markdown>
+              <MemoizedMarkdown id={id} content={content as string} />
             </div>
           </div>
         </div>
