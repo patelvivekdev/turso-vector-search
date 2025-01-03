@@ -33,7 +33,7 @@
     "marked": "^15.0.4",
     "mixedbread-ai-provider": "^1.0.2",
     "motion": "^11.15.0",
-    "next": "15.1.1-canary.12",
+    "next": "15.1.2",
     "next-auth": "5.0.0-beta.25",
     "nuqs": "^2.2.3",
     "react": "^19.0.0",
