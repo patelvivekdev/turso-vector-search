@@ -6,6 +6,7 @@ import { RAGPrompt } from '@/ai/prompt';
 import { findRelevantContent } from '@/db/queries/search';
 import { auth } from '@/app/(auth)/auth';
 import { redirect } from 'next/navigation';
+
 export const maxDuration = 60;
 
 export async function POST(request: Request) {
@@ -34,7 +35,6 @@ export async function POST(request: Request) {
         execute: async ({ content }) => {
           console.log('Storing knowledge');
           const result = await createResource(userId, content);
-          console.log('Knowledge stored:', result);
           return {
             result,
           };
@@ -50,14 +50,13 @@ export async function POST(request: Request) {
         execute: async ({ question }) => {
           console.log('Retrieving knowledge');
           const result = await findRelevantContent(userId, question, 20);
-
-          console.log('Retrieved knowledge:', result.length);
           return { result: result };
         },
       } as CoreTool,
     },
     experimental_transform: smoothStream({
       delayInMs: 20,
+      chunking: 'line',
     }),
   });
 

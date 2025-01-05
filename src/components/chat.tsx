@@ -17,7 +17,7 @@ export const Chat = () => {
     body: {
       selectedModel: selectedModel,
     },
-    experimental_throttle: 50,
+    experimental_throttle: 100,
   });
 
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
