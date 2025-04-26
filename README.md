@@ -39,6 +39,14 @@ CREATE INDEX vector_idx ON embeddings (libsql_vector_idx(embedding));
 bun run dev
 ```
 
+## Changelog
+
+- 0.5.0:
+  - Change the Embedding model to google text-embedding
+  - Update the dependencies
+  - Update the UI for the tool calls
+  - Update tailwind to v4
+
 ## Links
 
 - [Turso](https://turso.tech/)
