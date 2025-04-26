@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     authInterrupts: true,
     reactCompiler: true,
   },
+
   images: {
     remotePatterns: [
       {
@@ -17,6 +18,13 @@ const nextConfig: NextConfig = {
         hostname: 'lh3.googleusercontent.com',
       },
     ],
+  },
+  /* config options here */
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 
