@@ -1,6 +1,6 @@
-import { convertToCoreMessages, CoreTool, smoothStream, streamText } from 'ai';
+import { convertToCoreMessages, smoothStream, streamText, Tool } from 'ai';
 import { z } from 'zod';
-import { selectCustomModel } from '@/ai';
+import { model } from '@/ai';
 import { createResource } from '@/ai/resources';
 import { RAGPrompt } from '@/ai/prompt';
 import { findRelevantContent } from '@/db/queries/search';
@@ -18,10 +18,10 @@ export async function POST(request: Request) {
 
   const userId = session.user.userId;
 
-  const { selectedModel, messages } = await request.json();
+  const { messages } = await request.json();
 
   const result = streamText({
-    model: selectCustomModel(selectedModel),
+    model: model.languageModel('gemini-2.5-flash'),
     system: RAGPrompt,
     messages: convertToCoreMessages(messages),
     maxSteps: 15,
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
             result,
           };
         },
-      } as CoreTool,
+      } as Tool,
       retrieveInformation: {
         name: 'retrieveInformation',
         description:
@@ -49,10 +49,10 @@ export async function POST(request: Request) {
         }),
         execute: async ({ question }) => {
           console.log('Retrieving knowledge');
-          const result = await findRelevantContent(userId, question, 20);
+          const result = await findRelevantContent(userId, question);
           return { result: result };
         },
-      } as CoreTool,
+      } as Tool,
     },
     experimental_transform: smoothStream({
       delayInMs: 20,

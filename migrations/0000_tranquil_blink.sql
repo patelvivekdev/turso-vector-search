@@ -3,7 +3,7 @@ CREATE TABLE `embeddings` (
 	`user_id` text DEFAULT '43227010' NOT NULL,
 	`resource_id` text,
 	`content` text NOT NULL,
-	`embedding` F32_BLOB(1024),
+	`embedding` F32_BLOB(768),
 	FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint

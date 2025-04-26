@@ -1,6 +1,6 @@
 ## Turso Vector Search
 
-This is a simple RAG example of how to use the Turso Vector Search API with Drizzle ORM and Mistral AI | Google AI.
+This is a simple RAG example of how to use the Turso Vector Search API with Drizzle ORM Google AI.
 
 ![Turso](./public/turso-vector-search.webp)
 

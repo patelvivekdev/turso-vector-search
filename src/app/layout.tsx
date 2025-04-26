@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import Navbar from '@/components/Navbar';
-import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -28,10 +27,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NuqsAdapter>
-          <Navbar />
-          {children}
-        </NuqsAdapter>
+        <Navbar />
+        {children}
       </body>
     </html>
   );

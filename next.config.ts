@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   experimental: {
     ppr: true,
     authInterrupts: true,
+    reactCompiler: true,
   },
   images: {
     remotePatterns: [

@@ -1,7 +1,7 @@
 'use server';
 import { insertEmbeddings, insertResource } from '@/db/queries/insert';
 import { getFactsFromLLM } from './facts';
-import { generateEmbeddings } from './embedding';
+import { generateDocumentEmbeddings } from './embedding';
 
 export const createResource = async (userID: string, content: string) => {
   try {
@@ -12,7 +12,7 @@ export const createResource = async (userID: string, content: string) => {
     if (facts.length > 0) {
       const resourceId = await insertResource(userID, content);
 
-      const embeddings = await generateEmbeddings(facts);
+      const embeddings = await generateDocumentEmbeddings(facts);
 
       const embeddingsData = embeddings.map((e) => {
         return {

@@ -26,6 +26,6 @@ export const embeddings = sqliteTable('embeddings', {
   }),
   content: text('content').notNull(),
   embedding: vectorColumn('embedding', {
-    length: 1024,
+    length: 768,
   }),
 });
