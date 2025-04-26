@@ -31,7 +31,7 @@
     "lucide-react": "^0.503.0",
     "marked": "^15.0.11",
     "motion": "^12.9.2",
-    "next": "^15.4.0-canary.10",
+    "next": "^15.2.4",
     "next-auth": "5.0.0-beta.25",
     "nuqs": "^2.4.3",
     "react": "^19.1.0",
