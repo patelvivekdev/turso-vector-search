@@ -1,7 +1,7 @@
 {
   "name": "turso-vector-search",
   "description": "This is demo application build with Next.js, Turso, Drizzle ORM, and Vercel AI SDK.",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "author": "Vivek Patel <me@patelvivek.dev>",
   "private": true,
   "scripts": {
