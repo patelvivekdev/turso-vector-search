@@ -7,8 +7,6 @@ import { findRelevantContent } from '@/db/queries/search';
 import { auth } from '@/app/(auth)/auth';
 import { redirect } from 'next/navigation';
 
-export const maxDuration = 60;
-
 export async function POST(request: Request) {
   // perform auth check so api end point is protected
   const session = await auth();
@@ -21,7 +19,7 @@ export async function POST(request: Request) {
   const { messages } = await request.json();
 
   const result = streamText({
-    model: model.languageModel('gemini-2.5-flash'),
+    model: model.languageModel('gemini-2.5-pro'),
     system: RAGPrompt,
     messages: convertToCoreMessages(messages),
     maxSteps: 15,
