@@ -1,10 +1,10 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  reactCompiler: true,
   experimental: {
-    ppr: true,
+    // ppr: true,
     authInterrupts: true,
-    reactCompiler: true,
   },
 
   images: {
@@ -20,9 +20,6 @@ const nextConfig: NextConfig = {
     ],
   },
   /* config options here */
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
